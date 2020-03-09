@@ -1,3 +1,5 @@
+package uk.co.stevebosman.close
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -52,4 +54,24 @@ class IsCloseTest {
         assertTrue(isClose(100.0,100.01, 1e-4, 0.0))
     }
 
+    @Test
+    fun absoluteDifference() {
+        Assertions.assertEquals(4.0, absoluteDifference(1.5, -2.5))
+        Assertions.assertEquals(Double.NaN, absoluteDifference(Double.NaN, -2.5))
+        Assertions.assertEquals(Double.POSITIVE_INFINITY, absoluteDifference(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY))
+        Assertions.assertEquals(Double.POSITIVE_INFINITY, absoluteDifference(1.3, Double.NEGATIVE_INFINITY))
+        Assertions.assertEquals(Double.POSITIVE_INFINITY, absoluteDifference(Double.POSITIVE_INFINITY, 2.5))
+        Assertions.assertEquals(Double.POSITIVE_INFINITY, absoluteDifference(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY))
+        Assertions.assertEquals(Double.NaN, absoluteDifference(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY))
+        Assertions.assertEquals(Double.NaN, absoluteDifference(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY))
+    }
+
+    @Test
+    fun relativeDifference() {
+        Assertions.assertEquals(2.25, relativeDifference(2.0, -2.5, ::absA))
+        Assertions.assertEquals(Double.POSITIVE_INFINITY, relativeDifference(2.0, Double.NEGATIVE_INFINITY, ::absA))
+        Assertions.assertEquals(Double.NaN, relativeDifference(Double.POSITIVE_INFINITY, -2.5, ::absA))
+        Assertions.assertEquals(Double.NaN, relativeDifference(2.0, Double.NEGATIVE_INFINITY, ::maxAbsAOrB))
+        Assertions.assertEquals(Double.NaN, relativeDifference(Double.POSITIVE_INFINITY, -2.5, ::maxAbsAOrB))
+    }
 }

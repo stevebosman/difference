@@ -86,7 +86,7 @@ fun isClose(
         // Infinities are never close to other values except themselves
         result = false
     } else {
-        val absoluteDifference = abs(a - b)
+        val absoluteDifference = absoluteDifference(a, b)
         if (absoluteTolerance >= absoluteDifference) {
             result = true
         } else {
@@ -99,4 +99,21 @@ fun isClose(
 
     return result
 }
+
+/**
+ * Determine absolute difference between two values [a] and [b],
+ * i.e. |max([a],[b])|
+ */
+fun absoluteDifference(
+    a: Double, b: Double
+) = abs(a - b)
+
+/**
+ * Determine relative difference between two values [a] and [b],
+ * i.e. |max([a],[b])|/relativeDifferenceScalingFunction([a],[b])
+ */
+fun relativeDifference(
+    a: Double, b: Double,
+    relativeDifferenceScalingFunction: (Double, Double) -> Double = ::maxAbsAOrB
+) = absoluteDifference(a, b) / relativeDifferenceScalingFunction(a, b)
 
