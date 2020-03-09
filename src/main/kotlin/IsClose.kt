@@ -52,14 +52,14 @@ fun mean(a: Double, b: Double): Double {
 /**
  * Relative error scaling: abs([a])
  */
-fun absA(a: Double, b: Double): Double {
+fun absA(a: Double, @Suppress("UNUSED_PARAMETER") b: Double): Double {
     return abs(a)
 }
 
 /**
  * Relative error scaling: abs([b])
  */
-fun absB(a: Double, b: Double): Double {
+fun absB(@Suppress("UNUSED_PARAMETER") a: Double, b: Double): Double {
     return abs(b)
 }
 
