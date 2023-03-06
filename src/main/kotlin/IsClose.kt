@@ -2,78 +2,33 @@ package uk.co.stevebosman.close
 
 import java.lang.Double.isNaN
 import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.min
-
-/**
- * Relative difference scaling: Max(|[a]|,|[b]|)
- */
-fun maxAbsAOrB(a: Double, b: Double): Double {
-    return max(abs(a), abs(b))
-}
-
-/**
- * Relative difference scaling: Max([a],[b])
- */
-fun maxAOrB(a: Double, b: Double): Double {
-    return max(a, b)
-}
-
-/**
- * Relative difference scaling: Min(|[a]|,|[b]|)
- */
-fun minAbsAOrB(a: Double, b: Double): Double {
-    return min(abs(a), abs(b))
-}
-
-/**
- * Relative difference scaling: Min([a],[b])
- */
-fun minAOrB(a: Double, b: Double): Double {
-    return min(a, b)
-}
-
-/**
- * Relative difference scaling: Mean: (|[a]|+|[b]|)/2, using Welford's method
- */
-fun meanAbs(a: Double, b: Double): Double {
-    val absA = abs(a)
-    val absB = abs(b)
-    return mean(absA, absB)
-}
-
-/**
- * Relative difference scaling: Mean: ([a]+[b])/2, using Welford's method
- */
-fun mean(a: Double, b: Double): Double {
-    return a + (b - a) / 2.0
-}
-
-/**
- * Relative error scaling: abs([a])
- */
-fun absA(a: Double, @Suppress("UNUSED_PARAMETER") b: Double): Double {
-    return abs(a)
-}
-
-/**
- * Relative error scaling: abs([b])
- */
-fun absB(@Suppress("UNUSED_PARAMETER") a: Double, b: Double): Double {
-    return abs(b)
-}
 
 /**
  * Check if [a] is approximately equal to [b],
  * that is if:
- *   abs([a] - [b]) <= max([relativeTolerance] * [relativeToleranceScalingFunction] ([a],[b]), [absoluteTolerance])
+ *   abs([a] - [b]) <= max([relativeTolerance] * [scalingFunction].function([a],[b]), [absoluteTolerance])
  */
 fun isClose(
     a: Double, b: Double,
     relativeTolerance: Double = 1e-09,
     absoluteTolerance: Double = 0.0,
     equalNaN: Boolean = false,
-    relativeToleranceScalingFunction: (Double, Double) -> Double = ::maxAbsAOrB
+    scalingFunction: RelativeToleranceScalingFunction
+): Boolean {
+    return isClose(a,b,relativeTolerance, absoluteTolerance, equalNaN, scalingFunction.function)
+}
+
+/**
+ * Check if [a] is approximately equal to [b],
+ * that is if:
+ *   abs([a] - [b]) <= max([relativeTolerance] * [scalingFunction] ([a],[b]), [absoluteTolerance])
+ */
+fun isClose(
+    a: Double, b: Double,
+    relativeTolerance: Double = 1e-09,
+    absoluteTolerance: Double = 0.0,
+    equalNaN: Boolean = false,
+    scalingFunction: (Double, Double) -> Double = ::maxAbsAOrB
 ): Boolean {
     var result = false
     if (equalNaN && isNaN(a) && isNaN(b)) {
@@ -86,11 +41,14 @@ fun isClose(
         // Infinities are never close to other values except themselves
         result = false
     } else {
+        println("a,b: $a, $b")
         val absoluteDifference = absoluteDifference(a, b)
+        println("absoluteDifference: $absoluteDifference")
         if (absoluteTolerance >= absoluteDifference) {
             result = true
         } else {
-            val relativeDifference = absoluteDifference / relativeToleranceScalingFunction(a, b)
+            val relativeDifference = absoluteDifference / scalingFunction(a, b)
+            println("relativeDifference: $relativeDifference")
             if (relativeTolerance >= relativeDifference) {
                 result = true
             }
@@ -102,7 +60,7 @@ fun isClose(
 
 /**
  * Determine absolute difference between two values [a] and [b],
- * i.e. |max([a],[b])|
+ * i.e. |[a]-[b]|
  */
 fun absoluteDifference(
     a: Double, b: Double
@@ -110,10 +68,19 @@ fun absoluteDifference(
 
 /**
  * Determine relative difference between two values [a] and [b],
- * i.e. |max([a],[b])|/relativeDifferenceScalingFunction([a],[b])
+ * i.e. |[a]-[b]| / [scalingFunction].function([a],[b])
  */
 fun relativeDifference(
     a: Double, b: Double,
-    relativeDifferenceScalingFunction: (Double, Double) -> Double = ::maxAbsAOrB
-) = absoluteDifference(a, b) / relativeDifferenceScalingFunction(a, b)
+    scalingFunction: RelativeToleranceScalingFunction
+) = relativeDifference(a, b, scalingFunction.function)
+
+/**
+ * Determine relative difference between two values [a] and [b],
+ * i.e. |[a]-[b]| / [scalingFunction] ([a],[b])
+ */
+fun relativeDifference(
+    a: Double, b: Double,
+    scalingFunction: (Double, Double) -> Double = ::maxAbsAOrB
+) = absoluteDifference(a, b) / scalingFunction(a, b)
 
