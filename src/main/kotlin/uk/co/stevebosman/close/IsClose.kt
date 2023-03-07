@@ -1,5 +1,7 @@
 package uk.co.stevebosman.close
 
+import uk.co.stevebosman.close.scaling.uk.co.stevebosman.close.scaling.RelativeToleranceScalingFunction
+import uk.co.stevebosman.close.scaling.uk.co.stevebosman.close.scaling.maxAbsAOrB
 import java.lang.Double.isNaN
 import kotlin.math.abs
 
@@ -37,7 +39,7 @@ fun isClose(
     } else if (a == b) {
         // Same values are always close
         result = true
-    } else if (a == Double.POSITIVE_INFINITY || a == Double.NEGATIVE_INFINITY || b == Double.POSITIVE_INFINITY || b == -Double.NEGATIVE_INFINITY) {
+    } else if (a == Double.POSITIVE_INFINITY || a == Double.NEGATIVE_INFINITY || b == Double.POSITIVE_INFINITY || b == Double.NEGATIVE_INFINITY) {
         // Infinities are never close to other values except themselves
         result = false
     } else {
