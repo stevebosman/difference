@@ -1,4 +1,0 @@
-rootProject.name = 'is-close'
-
-
-enableFeaturePreview('GRADLE_METADATA')
