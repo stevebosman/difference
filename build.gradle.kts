@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "uk.co.stevebosman"
-version = "1.0-SNAPSHOT"
+version = "0.0.5-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -36,8 +36,8 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/stevebosman/is-close-kt")
             credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
             }
         }
     }
