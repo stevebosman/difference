@@ -1,11 +1,11 @@
-package uk.co.stevebosman.close
+package uk.co.stevebosman.difference
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import uk.co.stevebosman.close.scaling.uk.co.stevebosman.close.scaling.RelativeToleranceScalingFunction
-import uk.co.stevebosman.close.scaling.uk.co.stevebosman.close.scaling.absA
+import uk.co.stevebosman.difference.scaling.uk.co.stevebosman.close.scaling.RelativeToleranceScalingFunction
+import uk.co.stevebosman.difference.scaling.uk.co.stevebosman.close.scaling.absA
 
 class IsCloseTest {
     @ParameterizedTest(name = "isClose returns true with {0}, {1} using {2}")

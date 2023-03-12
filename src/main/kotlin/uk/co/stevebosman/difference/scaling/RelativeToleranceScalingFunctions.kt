@@ -1,4 +1,4 @@
-package uk.co.stevebosman.close.scaling.uk.co.stevebosman.close.scaling
+package uk.co.stevebosman.difference.scaling.uk.co.stevebosman.close.scaling
 
 import kotlin.math.*
 
