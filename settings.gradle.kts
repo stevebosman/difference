@@ -1,3 +1,3 @@
 
-rootProject.name = "is-close"
+rootProject.name = "difference"
 

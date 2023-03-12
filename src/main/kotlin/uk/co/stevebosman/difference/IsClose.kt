@@ -1,7 +1,7 @@
-package uk.co.stevebosman.close
+package uk.co.stevebosman.difference
 
-import uk.co.stevebosman.close.scaling.uk.co.stevebosman.close.scaling.RelativeToleranceScalingFunction
-import uk.co.stevebosman.close.scaling.uk.co.stevebosman.close.scaling.maxAbsAOrB
+import uk.co.stevebosman.difference.scaling.uk.co.stevebosman.close.scaling.RelativeToleranceScalingFunction
+import uk.co.stevebosman.difference.scaling.uk.co.stevebosman.close.scaling.maxAbsAOrB
 import java.lang.Double.isNaN
 import kotlin.math.abs
 
