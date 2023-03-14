@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "uk.co.stevebosman"
-version = "0.0.6"
+version = "0.1.0"
 
 repositories {
     mavenCentral()
@@ -27,7 +27,7 @@ tasks.test {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "11"
 }
 
 publishing {
@@ -36,8 +36,8 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/stevebosman/difference")
             credentials {
-                username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
-                password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
             }
         }
     }
