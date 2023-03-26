@@ -43,14 +43,11 @@ fun isClose(
         // Infinities are never close to other values except themselves
         result = false
     } else {
-        println("a,b: $a, $b")
         val absoluteDifference = absoluteDifference(a, b)
-        println("absoluteDifference: $absoluteDifference")
         if (absoluteTolerance >= absoluteDifference) {
             result = true
         } else {
             val relativeDifference = absoluteDifference / scalingFunction(a, b)
-            println("relativeDifference: $relativeDifference")
             if (relativeTolerance >= relativeDifference) {
                 result = true
             }
